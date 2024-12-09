@@ -13,9 +13,9 @@ class User(Base):
     name = Column(String(250), nullable=False)
     userName = Column(String(250), nullable=  False, unique=True)
 
-    Followers = relationship("Followers", backref="user") #No voy a modificar el useList porque tal vez no está demás que me devuelva una list
-    Follow = relationship("Followed", backref="user") 
-    comments = relationship("Comment", backref="user") #Solo quiero ver un comentario a la vez del usario
+    Followers = relationship("followers", backref="user") #No voy a modificar el useList porque tal vez no está demás que me devuelva una list
+    Follow = relationship("followed", backref="user") 
+    comments = relationship("comment", backref="user") #Solo quiero ver un comentario a la vez del usario
 
 class Followers(Base):
     __tablename__ = 'followers'
@@ -34,15 +34,14 @@ class Post(Base):
     id = Column(Integer, primary_key=True, autoincrement = True)
     content = Column(Text, nullable = False, unique = True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable = False)
-    comment_id = Column(Integer, ForeignKey("Comment.id"), nullable = False)
-    user = relationship("User", backref="posts")
-    comments = relationship("Comment",backref ="post")
+    user = relationship("user", backref="posts")
+    comments = relationship("comment",backref ="post")
 
 class Comment(Base):
     __tablename__ = 'comment'
     id = Column(Integer, primary_key= True, autoincrement = True)
     comment = Column(Text, nullable = False)
-    id_post = Column(Integer, ForeignKey("Post.id"), nullable = False)
+    id_post = Column(Integer, ForeignKey("post.id"), nullable = False)
     id_user = Column(Integer, ForeignKey("user.id"), nullable = False) 
     
 ## Draw from SQLAlchemy base
