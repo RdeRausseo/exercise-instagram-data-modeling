@@ -26,7 +26,7 @@ class Followers(Base):
 class Followed(Base):
     __tablename__ = 'followed'
     id = Column(Integer, primary_key=True, autoincrement = True)
-    userName = Column(String(250), nullable=True, unique =  True)
+    userName = Column(String(250), nullable=False, unique =  True)
     id_user_follow = Column(Integer, ForeignKey("user.id"), nullable = False)
 
 class Post(Base):
@@ -34,7 +34,9 @@ class Post(Base):
     id = Column(Integer, primary_key=True, autoincrement = True)
     content = Column(Text, nullable = False, unique = True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable = False)
+    comment_id = Column(Integer, ForeignKey("Comment.id"), nullable = False)
     user = relationship("User", backref="posts")
+    comments = relationship("Comment",backref ="post")
 
 class Comment(Base):
     __tablename__ = 'comment'
